@@ -3,13 +3,14 @@ import ContextsProvider from "./contexts/Contexts"
 import Toast from "./components/Toast"
 import { ReactElement } from "react"
 
-function App()
+function App():ReactElement
 {
     return (
         <ContextsProvider>
-                <Toast>
-                </Toast>
-            <Rotas></Rotas>
+            <>
+                <Toast></Toast>
+                <Rotas></Rotas>
+            </>
         </ContextsProvider>
     )
 }
