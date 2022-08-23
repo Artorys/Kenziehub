@@ -102,7 +102,7 @@ function Login()
                                         setEmail((oldEmail)=> !oldEmail)
                                         inputEmail.current.focus()
                                     }} position="start"><EmailIcon color="primary"></EmailIcon></InputAdornment> }} label = "Email"></TextFieldStyled>
-                                {errors.email?.message && <FormHelperText error>{`${errors.email.message}`}`</FormHelperText> }
+                                {errors.email?.message && <FormHelperText error>{`${errors.email.message}`}</FormHelperText> }
                             </div>
                             <div className="box_senha">
                                 <TextFieldStyled className="div_input" inputProps={password ? {ref : inputPassword,type : "text"} : {ref : inputPassword,type : "password"}} InputProps={{...register("senha"),className : "input",endAdornment : <IconButton color="primary" onClick={()=> 
