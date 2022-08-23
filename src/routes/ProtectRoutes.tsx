@@ -1,20 +1,20 @@
-import { useContext,useEffect } from "react"
+import { ReactElement, useContext,useEffect } from "react"
 import { Outlet } from "react-router-dom"
-import {authContext} from "../contexts/AuthProvider"
+import {authContext,IAuthContext} from "../contexts/AuthProvider"
 import Api from "../services/api"
-import {userContext} from "../contexts/UserProvider"
+import {userContext,IDataUser,IUserContext} from "../contexts/UserProvider"
 
-function ProtectRoutes()
+function ProtectRoutes() : ReactElement
 {
-    const {user,setUser} = useContext(authContext)
-    const {dataUser,setDataUser} = useContext(userContext)
+    const {user,setUser} = useContext<IAuthContext>(authContext)
+    const {dataUser,setDataUser} = useContext<IUserContext>(userContext)
 
     useEffect(()=>
     {
         const token = localStorage.getItem("@TOKEN")
         if(token)
         {
-            Api.defaults.headers = 
+            Api.defaults.headers.common = 
             {
                 "Authorization" : `Bearer ${token}`
             }
@@ -23,7 +23,8 @@ function ProtectRoutes()
         {
             try
             {
-                const {data} = await Api.get(`/profile`)
+                const {data} = await Api.get<IDataUser>(`/profile`)
+                console.log(data)
                 setDataUser(data)
                 setUser(true)
                 
@@ -37,7 +38,9 @@ function ProtectRoutes()
     },[])
 
     return(
-        user && <Outlet></Outlet>
+        <>
+            {user && <Outlet></Outlet>}
+        </>
     )
 }
 export default ProtectRoutes

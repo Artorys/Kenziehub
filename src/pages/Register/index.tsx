@@ -1,32 +1,36 @@
-import { FormHelperText, IconButton,InputAdornment, InputLabel, MenuItem, Select, ThemeProvider,FormControl, AlertTitle, Alert, Snackbar, Dialog, DialogTitle, DialogActions, Button, Icon} from "@mui/material"
-import {RegisterStyled,TextFieldStyled,Theme,ButtonStyled,ButtonBack} from "./style"
+import { FormHelperText, IconButton,InputAdornment, MenuItem,ThemeProvider} from "@mui/material"
+import {RegisterStyled,TextFieldStyled,ButtonStyled,ButtonBack} from "./style"
 import EmailIcon from '@mui/icons-material/Email';
 import {Visibility,VisibilityOff} from "@mui/icons-material";
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import {yupResolver} from "@hookform/resolvers/yup"
 import PersonIcon from '@mui/icons-material/Person';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Api from "../../services/api"
 import RegisterModel from "../../models/Register"
 import LoginIcon from '@mui/icons-material/Login';
 import { useContext } from "react";
-import {toastContext} from "../../contexts/ToastProvider"
-import Toast from "../../components/Toast";
+import {IToastContext, toastContext} from "../../contexts/ToastProvider"
+import { ThemeButton,ThemeButtonBack,ThemeInput } from "./style";
 
+interface ITextContext
+{
+    textContext : string;
+}
 function Register()
 {
-    const [password,setPassword] = useState(false)
-    const [confirm,setConfirm] = useState(false)
-    const [modulo,setModulo] = useState("")
-    const inputPassword = useRef()
-    const inputConfirm = useRef()
-    const inputEmail = useRef()
-    const nomeInput = useRef()
-    const contatoInput = useRef()
-    const {toastRegisterError,setToastRegisterError,toastRegister,setToastRegister,dialog,setDialog} = useContext(toastContext)
+    const [password,setPassword] = useState<boolean>(false)
+    const [confirm,setConfirm] = useState<boolean>(false)
+    const [modulo,setModulo] = useState<string>("")
+    const inputPassword = useRef()as MutableRefObject<HTMLInputElement>
+    const inputConfirm = useRef() as MutableRefObject<HTMLInputElement>
+    const inputEmail = useRef() as MutableRefObject<HTMLInputElement>
+    const nomeInput = useRef() as MutableRefObject<HTMLInputElement>
+    const contatoInput = useRef() as MutableRefObject<HTMLInputElement>
+    const {toastRegisterError,setToastRegisterError,toastRegister,setToastRegister,dialog,setDialog} = useContext<IToastContext>(toastContext)
     const navigate = useNavigate()
     const schema = yup.object().shape
     (
@@ -38,7 +42,7 @@ function Register()
                     message : "Necessário ter letras maiúsculas e minúsculas,números e ao menos um símbolo",
                     test : function(senha)
                     {
-                        if(senha.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/g))
+                        if(senha?.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/g))
                         {
                             return true
                         }
@@ -72,18 +76,30 @@ function Register()
                 })
         }
     )
-    const {register,handleSubmit,formState : {errors}} = useForm(
+    interface IFormRegister
+    {
+        nome : string;
+        email : string;
+        senha : string;
+        confirmarSenha : string;
+        bio : string;
+        contato : string;
+        modulo : string;
+
+    }
+    const {register,handleSubmit,formState : {errors},setValue} = useForm<IFormRegister>(
         {
-            resolver : yupResolver(schema)
+            resolver : yupResolver(schema),
+            mode : "all"
         })
         
     return(
         <RegisterStyled>
-            <ThemeProvider theme={Theme}>
+            <ThemeProvider theme={ThemeButtonBack}>
                 <header>
                     <h1>Kenzie Hub</h1>
                     <Link to="/login">
-                        <ButtonBack color="gray3" variant="contained">Voltar</ButtonBack>
+                        <ButtonBack color="primary" variant="contained">Voltar</ButtonBack>
                     </Link>
                 </header>
             </ThemeProvider>
@@ -130,10 +146,13 @@ function Register()
                     
                 })}>
                     <div className="login__box">
-                        <ThemeProvider theme={Theme}>
+                        <ThemeProvider theme={ThemeInput}>
 
                             <div className="box_name">
-                                <TextFieldStyled inputRef={nomeInput} className="div_input" inputProps={{...register("nome")}} label = "Nome" InputProps = {{className : "input",startAdornment : <InputAdornment onClick = {()=> nomeInput.current.focus()} position="start"><PersonIcon color="white"></PersonIcon></InputAdornment>}}>
+                                <TextFieldStyled inputRef={nomeInput} className="div_input" inputProps={{...register("nome")}} label = "Nome" InputProps = {{className : "input",startAdornment : <InputAdornment onClick = {(eve)=>
+                                    {
+                                        nomeInput.current.focus()
+                                    }} position="start"><PersonIcon color="primary"></PersonIcon></InputAdornment>}}>
 
                                 </TextFieldStyled>
                                 {errors.nome?.message && <FormHelperText error>{errors.nome.message}</FormHelperText> }
@@ -141,17 +160,20 @@ function Register()
                             <div className="box_email">
                                 <TextFieldStyled  inputRef={inputEmail} className="div_input" inputProps={{...register("email")}}  InputProps={{className : "input",startAdornment : <InputAdornment onClick={()=> 
                                     {
-                                        inputEmail.current.focus()
-                                    }} position="start"><EmailIcon color="white"></EmailIcon></InputAdornment> }} label = "Email"></TextFieldStyled>
+                                       inputEmail.current.focus()
+                                    }} position="start"><EmailIcon color="primary"></EmailIcon></InputAdornment> }} label = "Email"></TextFieldStyled>
                                 {errors.email?.message && <FormHelperText error>{errors.email.message}</FormHelperText> }
                             </div>
                             <div className="box_senha">
                                 <TextFieldStyled className="div_input" inputProps={password ? {ref : inputPassword,type : "text"} : {ref : inputPassword,type : "password"}} InputProps={{...register("senha"),className : "input",endAdornment : <IconButton onClick={()=> 
                                 {
                                     setPassword((oldPassword)=> !oldPassword)
-                                    inputPassword.current.focus()
+                                    if(inputPassword)
+                                    {
+                                        inputPassword.current.focus()
+                                    }
                                 }} 
-                                color="white" edge = "end">{password ? <VisibilityOff color = "white"></VisibilityOff>:<Visibility color="white"></Visibility>}</IconButton> }} label = "Senha"></TextFieldStyled>
+                                color="primary" edge = "end">{password ? <VisibilityOff color = "primary"></VisibilityOff>:<Visibility color="primary"></Visibility>}</IconButton> }} label = "Senha"></TextFieldStyled>
                                 {errors.senha?.message && <FormHelperText error>{errors.senha.message}</FormHelperText>}
                             </div>
                             <div className="box_senha">
@@ -160,7 +182,7 @@ function Register()
                                     setConfirm((oldPassword)=> !oldPassword)
                                     inputConfirm.current.focus()
                                 }} 
-                                color="white" edge = "end">{confirm ? <VisibilityOff color = "white"></VisibilityOff>:<Visibility color="white"></Visibility>}</IconButton> }} variant = "outlined" placeholder="Confirmar senha"></TextFieldStyled>
+                                color="primary" edge = "end">{confirm ? <VisibilityOff color = "primary"></VisibilityOff>:<Visibility color="primary"></Visibility>}</IconButton> }} variant = "outlined" placeholder="Confirmar senha"></TextFieldStyled>
                                 {errors.confirmarSenha?.message && <FormHelperText error>{errors.confirmarSenha.message}</FormHelperText>}
                             </div>
                             <div className="box_bio">
@@ -170,18 +192,17 @@ function Register()
                                 {errors.bio?.message && <FormHelperText error>{errors.bio.message}</FormHelperText>}
                             </div>
                             <div className="box_contato">
-                            <TextFieldStyled inputRef = {contatoInput} placeholder="Método de contato" inputProps={{...register("contato")}} InputProps={{startAdornment : <InputAdornment onClick = {()=> contatoInput.current.focus()} position = "start"><ContactPhoneIcon color = "white"></ContactPhoneIcon></InputAdornment>}} className="div_input" label = "Contato">
+                            <TextFieldStyled inputRef = {contatoInput} placeholder="Método de contato" inputProps={{...register("contato")}} InputProps={{startAdornment : <InputAdornment onClick = {()=> contatoInput.current.focus()} position = "start"><ContactPhoneIcon color = "primary"></ContactPhoneIcon></InputAdornment>}} className="div_input" label = "Contato">
                     
                             </TextFieldStyled>
                             {errors.contato?.message && <FormHelperText error>{errors.contato.message}</FormHelperText>}
                             </div>
                             <div className="box_modulo">
-                            <TextFieldStyled SelectProps={{onClick : (eve)=>
+                            <TextFieldStyled SelectProps={{value : modulo,...register("modulo"),onChange : (eve)=>
                             {
-                                const {textContent} = eve.target
-                                setModulo(textContent)
-
-                            },value : modulo,...register("modulo")}} className="div_input" id="select" label="Modulos" select>
+                                setModulo(`${eve.target.value}`)
+                                setValue("modulo",`${eve.target.value}`,{shouldValidate : true})
+                            }}} className="div_input" id="select" label="Modulos" select>
                                     <MenuItem disabled value={"Escolhendo..."}>
                                     Escolhendo...
                                     </MenuItem>
@@ -206,9 +227,11 @@ function Register()
                             </TextFieldStyled>
                             {errors.modulo?.message && <FormHelperText error>{errors.modulo.message}</FormHelperText>}
                             </div>
-                            <ButtonStyled type="submit" color = "primary" variant="contained">Cadastrar</ButtonStyled>
+                            <ThemeProvider theme={ThemeButton}>
+                            <ButtonStyled  type="submit" color = "primary" variant="contained">Cadastrar</ButtonStyled>
+                            </ThemeProvider>
                             <Link to="/login">
-                                <IconButton color="white"><LoginIcon color="white"></LoginIcon></IconButton>
+                                <IconButton color="primary"><LoginIcon color="primary"></LoginIcon></IconButton>
                             </Link>
                         </ThemeProvider>
                     </div>

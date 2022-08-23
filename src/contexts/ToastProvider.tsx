@@ -2,7 +2,7 @@ import { BackdropProps } from "@mui/material";
 import { createContext, Dispatch, ReactElement, SetStateAction } from "react";
 import { useState } from "react";
 
-interface IToastContext
+export interface IToastContext
 {
     toastError : boolean;
     toastOk : boolean;
@@ -29,14 +29,14 @@ const toastContext = createContext<IToastContext>({} as IToastContext)
 
 function ToastProvider({children} : IToast)
 {
-    const [toastError,setToastError] = useState(false)
-    const [toastOk,setToastOk] = useState(false)
-    const [dialog,setDialog] = useState(false)
-    const [toastRegister,setToastRegister] = useState(false)
-    const [toastRegisterError,setToastRegisterError] = useState(false)
-    const [toastTecError,setToastTecError] = useState(false)
+    const [toastError,setToastError] = useState<boolean>(false)
+    const [toastOk,setToastOk] = useState<boolean>(false)
+    const [dialog,setDialog] = useState<boolean>(false)
+    const [toastRegister,setToastRegister] = useState<boolean>(false)
+    const [toastRegisterError,setToastRegisterError] = useState<boolean>(false)
+    const [toastTecError,setToastTecError] = useState<boolean>(false)
     const [toastTec,setToastTec] = useState(false)
-    const [toastTecDelete,setToastTecDelete] = useState(false)
+    const [toastTecDelete,setToastTecDelete] = useState<boolean>(false)
     
     return(
     <toastContext.Provider value={{toastTecDelete,setToastTecDelete,toastTec,setToastTec,toastTecError,setToastTecError,dialog,setDialog,toastRegisterError,setToastRegisterError,toastRegister,setToastRegister,toastError,setToastError,toastOk,setToastOk}}>

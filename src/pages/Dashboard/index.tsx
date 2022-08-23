@@ -1,8 +1,8 @@
 import { Button, ThemeProvider,IconButton} from "@mui/material"
-import { useEffect,useContext } from "react"
+import { useEffect,useContext, ReactElement } from "react"
 import { Link, Navigate } from "react-router-dom"
 import Api from "../../services/api"
-import {ButtonStyled, DashboardStyled,Theme} from "./style"
+import {ButtonStyled, DashboardStyled,ThemeButton,ThemeButtonIcon} from "./style"
 import {authContext} from "../../contexts/AuthProvider"
 import {userContext} from "../../contexts/UserProvider"
 import AddIcon from '@mui/icons-material/Add';
@@ -12,7 +12,7 @@ import Modal from "../../components/Modal"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Skeleton,Box } from '@mui/material';
 
-function Dashboard()
+function Dashboard() : ReactElement
 {
     const {dataUser,tecs,setTecs} = useContext(userContext)
     const {toastTecDelete,setToastTecDelete} = useContext(toastContext)
@@ -52,9 +52,9 @@ function Dashboard()
                     <h1>
                         Kenzie Hub
                     </h1>
-                    <ThemeProvider theme={Theme}>
+                    <ThemeProvider theme={ThemeButton}>
                         <Link onClick={logout} to={"/login"}>
-                            <ButtonStyled variant="contained" color = "gray3">Sair</ButtonStyled>
+                            <ButtonStyled variant="contained">Sair</ButtonStyled>
                         </Link>
                     </ThemeProvider>
                 </nav>
@@ -80,7 +80,7 @@ function Dashboard()
                                     setModal(true)            
                                 }} className="add"><AddIcon></AddIcon></p>
                             </div>
-                            <ThemeProvider theme={Theme}>
+                            <ThemeProvider theme={ThemeButtonIcon}>
                             {
                                         loading
                                         ? <>
@@ -109,7 +109,7 @@ function Dashboard()
                                                     <p className="tec_name">{title}</p>
                                                     <div className="tecs_remove">
                                                         <p className="tec_status">{status}</p>
-                                                        <IconButton onClick={async()=>
+                                                        <IconButton color="primary" onClick={async()=>
                                                             {
                                                                 try
                                                                 {
@@ -121,7 +121,7 @@ function Dashboard()
                                                                 catch
                                                                 {
                                                                 }
-                                                            }} color = "gray1"><DeleteIcon></DeleteIcon></IconButton>
+                                                            }}><DeleteIcon></DeleteIcon></IconButton>
                                                     </div>
                                                 </li>
                                                 )

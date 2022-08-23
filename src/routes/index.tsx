@@ -1,10 +1,11 @@
-import {Routes,Route,Navigate, Router} from "react-router-dom"
+import {Routes,Route,Navigate} from "react-router-dom"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
 import Dashboard from "../pages/Dashboard"
 import ProtectRoutes from "./ProtectRoutes"
+import { ReactElement } from "react"
 
-function Rotas()
+function Rotas() : ReactElement
 {
 
     return(

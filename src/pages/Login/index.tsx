@@ -1,28 +1,27 @@
 import { Alert, AlertTitle, FormHelperText, IconButton,InputAdornment, Snackbar, ThemeProvider,} from "@mui/material"
-import {LoginStyled,TextFieldStyled,Theme,ButtonStyled,ButtonRegisterStyled} from "./style"
+import {LoginStyled,TextFieldStyled,ThemeButtonEnter,ThemeButtonRegister,ThemeInput,ButtonStyled,ButtonRegisterStyled} from "./style"
 import EmailIcon from '@mui/icons-material/Email';
 import { Visibility,VisibilityOff } from "@mui/icons-material";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Key, MutableRefObject, useEffect, useRef, useState } from "react";
+import {useForm } from "react-hook-form";
 import * as yup from "yup"
 import {yupResolver} from "@hookform/resolvers/yup"
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation} from "react-router-dom";
 import LoginModel from "../../models/Login"
 import Api from "../../services/api";
 import { useContext } from "react";
-import { toastContext } from "../../contexts/ToastProvider";
-import Toast from "../../components/Toast"
+import { IToastContext, toastContext } from "../../contexts/ToastProvider";
 
 function Login()
 {
 
-    const [password,setPassword] = useState(false)
-    const [email,setEmail] = useState(false)
-    const inputPassword = useRef()
-    const inputEmail = useRef()
-    const {toastError,setToastError,toastOk,setToastOk} = useContext(toastContext)
+    const [password,setPassword] = useState<boolean>(false)
+    const [email,setEmail] = useState<boolean>(false)
+    const inputPassword = useRef() as MutableRefObject<HTMLInputElement>
+    const inputEmail = useRef() as MutableRefObject<HTMLInputElement>
+    const {toastError,setToastError,toastOk,setToastOk} = useContext<IToastContext>(toastContext)
     const navigate = useNavigate()
-    const location = useLocation()
+    const location : any = useLocation()
     const schema = yup.object().shape
     (
         {
@@ -38,7 +37,9 @@ function Login()
         {
             if(location.state)
             {
-                const {email : emailUser, senha: senhaUser} = location.state
+                const locationState = location.state
+                
+                const {email : emailUser, senha: senhaUser} = locationState
                 if(emailUser && senhaUser)
                 {
                     setValue("email", emailUser)
@@ -94,29 +95,30 @@ function Login()
                     })
                 })}>
                     <div className="login__box">
-                        <ThemeProvider theme={Theme}>
+                        <ThemeProvider theme={ThemeInput}>
                             <div className="box_email">
                                 <TextFieldStyled inputRef={inputEmail} className="div_input" inputProps={{...register("email")}}  InputProps={{className : "input",startAdornment : <InputAdornment onClick={()=> 
                                     {
                                         setEmail((oldEmail)=> !oldEmail)
                                         inputEmail.current.focus()
-                                    }} position="start"><EmailIcon color="white"></EmailIcon></InputAdornment> }} label = "Email"></TextFieldStyled>
-                                {errors.email?.message && <FormHelperText error>{errors.email.message}</FormHelperText> }
+                                    }} position="start"><EmailIcon color="primary"></EmailIcon></InputAdornment> }} label = "Email"></TextFieldStyled>
+                                {errors.email?.message && <FormHelperText error>{`${errors.email.message}`}`</FormHelperText> }
                             </div>
                             <div className="box_senha">
-                                <TextFieldStyled className="div_input" inputProps={password ? {ref : inputPassword,type : "text"} : {ref : inputPassword,type : "password"}} InputProps={{...register("senha"),className : "input",endAdornment : <IconButton onClick={()=> 
+                                <TextFieldStyled className="div_input" inputProps={password ? {ref : inputPassword,type : "text"} : {ref : inputPassword,type : "password"}} InputProps={{...register("senha"),className : "input",endAdornment : <IconButton color="primary" onClick={()=> 
                                 {
                                     setPassword((oldPassword)=> !oldPassword)
                                     inputPassword.current.focus()
-                                }} 
-                                color="white" edge = "end">{password ? <VisibilityOff color = "white"></VisibilityOff>:<Visibility color="white"></Visibility>}</IconButton> }} label = "Senha"></TextFieldStyled>
-                                {errors.senha?.message && <FormHelperText error>{errors.senha.message}</FormHelperText>}
+                                }} edge = "end">{password ? <VisibilityOff></VisibilityOff>:<Visibility></Visibility>}</IconButton> }} label = "Senha"></TextFieldStyled>
+                                {errors.senha?.message && <FormHelperText error>{`${errors.senha.message}`}</FormHelperText>}
                             </div>
+                        </ThemeProvider>
+                        <ThemeProvider theme = {ThemeButtonEnter}>
                             <ButtonStyled type="submit" color = "primary" variant="contained">Entrar</ButtonStyled>
                         </ThemeProvider>
                     </div>
                     <div className="register__box">
-                        <ThemeProvider theme={Theme}>
+                        <ThemeProvider theme={ThemeButtonRegister}>
                             <FormHelperText className="p">Ainda não possui uma conta?</FormHelperText>
                             <Link to="/register">
                                 <ButtonRegisterStyled  className="button" variant="contained" >Cadastre-se</ButtonRegisterStyled>

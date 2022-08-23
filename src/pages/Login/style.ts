@@ -1,21 +1,17 @@
-import {makeStyles} from "@mui/styles";
 import styled from "@emotion/styled"
-import { Button, createTheme,TextField,OutlinedInput } from "@mui/material"
+import { Button, createTheme,TextField } from "@mui/material"
 
-const fontSize = 0.8
-
-const RegisterStyled = styled.div`
-    
+const LoginStyled = styled.div `
     position: absolute;
     top: 0;
     bottom : 0;
     left : 0;
     right : 0;
-    margin : 1rem auto;
+    margin : auto;
     width: 80%; 
     max-width: 350px;
     min-width : 250px;
-    height: fit-content;
+    height: max-content;
 
     header
     {
@@ -25,20 +21,19 @@ const RegisterStyled = styled.div`
         margin: 1rem;
         width: auto;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: center;
     }
     form
     {   
         width: 100%;
-        height: max-content;
+        height: 100%;
         padding: 1rem;
         font-family: 'Inter', sans-serif;
     }
     .login__container
     {
         background-color: var(--gray-3);
-        padding:1rem 0 0 0;
+        padding: 1.5rem 0;
         border-radius: 6px;
         width: 100%;
         height : 100%;
@@ -50,12 +45,6 @@ const RegisterStyled = styled.div`
         text-align: center;
         margin: 1rem 0;
     }
-    .box_title p
-    {
-        margin-top: 1rem;
-        font-weight: 500;
-        font-size: 0.8rem;
-    }
     .login__box
     {
         display: flex;
@@ -64,14 +53,7 @@ const RegisterStyled = styled.div`
         gap: 1rem;
         width: 100%;
         height: 100%;
-    }
-    .box_name
-    {
-        width: 100%;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        gap: 0.2rem;
+        margin-bottom: 2rem;
     }
     .box_email
     {
@@ -82,30 +64,6 @@ const RegisterStyled = styled.div`
         gap: 0.2rem;
     }
     .box_senha
-    {
-        width: 100%;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        gap: 0.2rem;
-    }
-    .box_bio
-    {
-        width: 100%;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        gap: 0.2rem;
-    }
-    .box_contato
-    {
-        width: 100%;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        gap: 0.2rem;
-    }
-    .box_modulo
     {
         width: 100%;
         display: flex;
@@ -139,7 +97,9 @@ const RegisterStyled = styled.div`
     {
         width : 100%;
     }
+
 `
+const fontSize = 0.8
 
 const TextFieldStyled = styled(TextField)({
     "& label" : 
@@ -174,7 +134,7 @@ const TextFieldStyled = styled(TextField)({
     },
   });
 
-const Theme = createTheme(
+const ThemeButtonEnter = createTheme(
 {
     typography : 
     {
@@ -188,27 +148,44 @@ const Theme = createTheme(
         {
             main : '#ff577f'
         },
-        white :
-        {
-            main : "#fff"
-        },
-        gray1 :
-        {
-            light: 'var(--gray-0)',
-            main: 'var(--gray-0)',
-            dark: 'var(--gray-0)',
-            contrastText: 'var(--gray-0)',
-        },
-        gray3 : 
-        {
-            light: 'var(--gray-1)',
-            main: 'var(--gray-3)',
-            dark: 'var(--gray-2)',
-            contrastText: 'var(--gray-0)',
-        }
     },
 
 })
+const ThemeButtonRegister = createTheme(
+    {
+        typography : 
+        {
+            fontFamily: "Inter, sans-serif",
+            fontWeightRegular : 700,
+    
+        },
+        palette : 
+        {
+            primary: 
+            {
+                main : '#868E96',
+                contrastText : "#F8F9FA"
+            },
+        },
+    
+    })
+    const ThemeInput = createTheme(
+        {
+            typography : 
+            {
+                fontFamily: "Inter, sans-serif",
+                fontWeightRegular : 700,
+        
+            },
+            palette : 
+            {
+                primary: 
+                {
+                    main : '#F8F9FA'               
+                },
+            },
+        
+        })
 const ButtonStyled = styled(Button)
 (
     
@@ -235,9 +212,5 @@ const ButtonRegisterStyled = styled(Button)
             backgroundColor : "var(--gray-2)"
         }
     }
-) 
-const ButtonBack = styled(Button)(
-    {
-        
-    })
-export {RegisterStyled,TextFieldStyled,Theme,ButtonStyled,ButtonRegisterStyled,ButtonBack}
+)
+export {LoginStyled,TextFieldStyled,ThemeInput,ThemeButtonEnter,ThemeButtonRegister,ButtonStyled,ButtonRegisterStyled}

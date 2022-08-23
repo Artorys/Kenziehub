@@ -58,7 +58,7 @@ function Toast()
                     Essa Tecnologia já existe!
                 </Alert>
             </Snackbar>
-            <Snackbar anchorOrigin={{horizontal : "center",vertical : "bottom   "}} onClose={()=>
+            <Snackbar anchorOrigin={{horizontal : "center",vertical : "bottom"}} onClose={()=>
                 {
                     setToastTec((toaster)=>!toaster)
                 }} open = {toastTec ? true : false} autoHideDuration={3000}>
@@ -66,7 +66,7 @@ function Toast()
                     Tecnologia criada com sucesso!
                 </Alert>
             </Snackbar>
-            <Snackbar anchorOrigin={{horizontal : "center",vertical : "bottom   "}} onClose={()=>
+            <Snackbar anchorOrigin={{horizontal : "center",vertical : "bottom"}} onClose={()=>
                 {
                     setToastTecDelete((toaster)=>!toaster)
                 }} open = {toastTecDelete ? true : false} autoHideDuration={3000}>

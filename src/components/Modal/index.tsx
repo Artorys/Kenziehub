@@ -13,6 +13,7 @@ import * as yup from "yup"
 import { useRef } from "react";
 import Tecs from "../../models/Tecs"
 import Api from "../../services/api";
+import {IDataUser} from "../../contexts/UserProvider"
 function Modal()
 {
     const {tecs,setTecs} = useContext(userContext)
@@ -45,7 +46,8 @@ function Modal()
                    try
                    {
                         await Api.post("/users/techs",newTec)
-                        const {data : {techs}} = await Api.get("/profile")
+                        const {data : {techs}} = await Api.get<IDataUser>("/profile")
+                        console.log(techs)
                         setTecs(techs)
                         setToastTec(true)
                         setModal(false)
@@ -60,10 +62,8 @@ function Modal()
                     <InputLabel variant="outlined" htmlFor="nameTec">
                         Nome
                     </InputLabel>
-                    <FilledInput inputProps={{...register("nome")}} id= "nameTec">
-
-                    </FilledInput>
-                    {errors.nome?.message && <FormHelperText sx = {{fontWeight : 600}} error>{errors.nome.message}</FormHelperText>}
+                    <FilledInput inputProps={{...register("nome")}} id= "nameTec"></FilledInput>
+                    {errors.nome?.message && <FormHelperText sx = {{fontWeight : 600}} error>{`${errors.nome.message}`}</FormHelperText>}
                     </FormControl>
                 <FormControl>
                     <InputLabel  htmlFor="status">
@@ -78,7 +78,7 @@ function Modal()
                         <MenuItem value={"Intermediário"}>Intermediário</MenuItem>
                         <MenuItem value={"Avançado"}>Avançado</MenuItem>
                     </Select>
-                    {errors.status?.message && <FormHelperText sx = {{fontWeight : 600}} error>{errors.status.message}</FormHelperText>}
+                    {errors.status?.message && <FormHelperText sx = {{fontWeight : 600}} error>{`${errors.status.message}`}</FormHelperText>}
                 </FormControl>
             <DialogActions>
                 <Button type="submit" color = "primary" sx={{width : "100%"}} variant = "contained">

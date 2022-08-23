@@ -1,6 +1,5 @@
-import { Button, createStyles, createTheme } from "@mui/material"
+import { Button, createTheme,Theme } from "@mui/material"
 import styled from "@emotion/styled"
-import { fontWeight } from "@mui/system"
 
 const DashboardStyled = styled.div`
     header
@@ -174,7 +173,7 @@ const ButtonStyled = styled(Button)(
         backgroundColor : "var(--gray-3)",
         fontWeight : "600",
     })
-const Theme = createTheme(
+const ThemeButton = createTheme(
     {
         typography : 
         {
@@ -184,20 +183,33 @@ const Theme = createTheme(
         },
         palette : 
         {
-            gray1 :
+            primary : 
             {
-                light: '#F8F9FA',
-                main: '#F8F9FA',
-                dark: '#F8F9FA',
-                contrastText: '#F8F9FA',
-            },
-            gray3 : 
-            {
-                dark:  `#343B41`,
-                contrastText: '#F8F9FA',
+                main : "#FFF",
+                dark : "#343B41",
+                contrastText : "#fff"
             }
         },
 
     
     })
-export {DashboardStyled,Theme,ButtonStyled}
+    const ThemeButtonIcon = createTheme(
+        {
+            typography : 
+            {
+                fontFamily: "Inter, sans-serif",
+                fontSize : 14,
+        
+            },
+            palette : 
+            {
+                primary : 
+                {
+                    main : "#fff",
+                    dark : "#343B41"
+                }
+            },
+    
+        
+        })
+export {DashboardStyled,ThemeButton,ThemeButtonIcon,ButtonStyled}
