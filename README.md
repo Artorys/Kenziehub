@@ -1,4 +1,4 @@
-## projeto feito em react : https://kenziehub-peach.vercel.app/login
+## projeto feito em react em conjunto com typescript : https://kenziehubtypescript-git-main-artorys.vercel.app/login
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
