@@ -29,7 +29,7 @@ Após instalar as dependências, execute o build do projeto:
 yarn start
 ```
 
-Executa o aplicativo no modo de desenvolvimento em conjunto do vite.
+Executa o aplicativo no modo de desenvolvimento em conjunto do cra(create react app).
 Abra http://localhost:3000 para visualizá-lo em seu navegador.
 
 A página será recarregada quando você fizer alterações.
