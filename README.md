@@ -8,7 +8,7 @@
 
 # KenzieHub
 
-Deploy : hhttps://kenziehubtypescript.vercel.app
+Deploy : https://kenziehubtypescript.vercel.app
  
 Um sistema de registro e login com uma dashboard,com validações de email e senha,utilizando-se uma api para o cadastro de usuários também para o cadastro de tecnologias escolhidas pelo usuário.
 
